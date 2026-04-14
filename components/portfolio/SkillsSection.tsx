@@ -203,10 +203,9 @@ export function SkillsSection() {
                     animate={isHovered ? { scale: [1, 1.1, 1] } : {}}
                     transition={{ duration: 0.5 }}
                   >
-                    <Icon
-                      className="w-5 h-5"
-                      style={{ color: isHovered ? '#a5b4fc' : '#818cf8' }}
-                    />
+                  <span style={{ color: isHovered ? '#a5b4fc' : '#818cf8' }} className="w-5 h-5 flex items-center justify-center">
+                    <Icon />
+                  </span>
 
                     {/* Pulse dot */}
                     {isHovered && (
