@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 189 100% 42%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 189 100% 42%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 189 100% 42%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.75rem;
+    --electric: 189 100% 42%;
+  }
+
+  .dark {
+    --background: 0 0% 2%;
+    --foreground: 0 0% 97%;
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 97%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 97%;
+    --primary: 189 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 97%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 189 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 189 100% 50%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 189 100% 50%;
+    --chart-5: 340 75% 55%;
+    --electric: 189 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl bg-white/80 border border-white/60 shadow-lg
+           dark:bg-white/[0.04] dark:border-white/[0.08] dark:shadow-none;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-md bg-white/70 border border-white/50 shadow-sm
+           dark:bg-white/[0.03] dark:border-white/[0.07];
+  }
+
+  .electric-text {
+    color: hsl(var(--electric));
+  }
+
+  .electric-bg {
+    background-color: hsl(var(--electric));
+  }
+
+  .electric-border {
+    border-color: hsl(var(--electric));
+  }
+
+  .electric-glow {
+    box-shadow: 0 0 24px hsl(var(--electric) / 0.35), 0 0 80px hsl(var(--electric) / 0.1);
+  }
+
+  .electric-glow-sm {
+    box-shadow: 0 0 12px hsl(var(--electric) / 0.4);
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, hsl(var(--electric) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--electric) / 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .gradient-electric {
+    background: linear-gradient(135deg, hsl(var(--electric)) 0%, hsl(189 100% 70%) 100%);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--electric) / 0.5);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--electric) / 0.8);
+}
