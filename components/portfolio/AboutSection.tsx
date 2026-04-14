@@ -1,14 +1,7 @@
- 
-
-
-
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-// import AnimatedText from '@/components/Animatedtext';
-// Replace with your actual photo import:
-// import NithinPhoto from '../assets/Nithin.jpg';
 
 interface AnimatedTextProps {
   text: string;
@@ -17,53 +10,28 @@ interface AnimatedTextProps {
 }
 
 const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className = '', once = false }) => {
-  // Split text into words
   const words = text.split(' ');
-
-  // Variants for container of words
-  const container = {
-    hidden: { opacity: 0 },
-    visible: (i = 1) => ({
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
-    }),
-  };
-
-  // Variants for each word
-  const child = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 20,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-  };
 
   return (
     <motion.div
       className={`overflow-hidden ${className}`}
-      variants={container}
       initial="hidden"
       whileInView="visible"
       viewport={{ once }}
     >
       {words.map((word, index) => (
         <motion.span
-          className="inline-block mr-1"
-          variants={child}
           key={index}
+          className="inline-block mr-1"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once }}
+          transition={{
+            type: 'spring',
+            damping: 12,
+            stiffness: 100,
+            delay: index * 0.12,
+          }}
         >
           {word}
         </motion.span>
@@ -90,15 +58,15 @@ const AboutSection: React.FC = () => {
     { label: 'Education', value: 'B.Sc. Data Science, Statistics & Mathematics' },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  };
+  // Shared spring transition
+  const spring = { type: 'spring' as const, stiffness: 90, damping: 18 };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 90 } },
-  };
+  // Helper: staggered fade-up for right column items
+  const fadeUp = (delay: number) => ({
+    initial: { opacity: 0, y: 20 },
+    animate: inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
+    transition: { ...spring, delay },
+  });
 
   return (
     <>
@@ -139,22 +107,13 @@ const AboutSection: React.FC = () => {
         }
 
         @media (max-width: 900px) {
-          .about-grid {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-          .about-stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
+          .about-grid { grid-template-columns: 1fr; gap: 40px; }
+          .about-stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 500px) {
-          .about-stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .about-highlights-grid {
-            grid-template-columns: 1fr;
-          }
+          .about-stats-grid { grid-template-columns: repeat(2, 1fr); }
+          .about-highlights-grid { grid-template-columns: 1fr; }
         }
 
         @keyframes float {
@@ -167,13 +126,8 @@ const AboutSection: React.FC = () => {
           to { transform: rotate(360deg); }
         }
 
-        .cert-badge {
-          animation: float 4s ease-in-out infinite;
-        }
-
-        .ring-spin {
-          animation: spin-slow 12s linear infinite;
-        }
+        .cert-badge { animation: float 4s ease-in-out infinite; }
+        .ring-spin  { animation: spin-slow 12s linear infinite; }
       `}</style>
 
       <section
@@ -233,7 +187,7 @@ const AboutSection: React.FC = () => {
             {/* ── LEFT — Photo column ── */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
+              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
               transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
               className="about-photo-wrap"
             >
@@ -251,26 +205,27 @@ const AboutSection: React.FC = () => {
                 borderRadius: '8px', zIndex: 0,
               }} />
 
-              {/* Spinning ring behind photo */}
+              {/* Spinning ring */}
               <div className="ring-spin" style={{
                 position: 'absolute', inset: '-20px',
                 borderRadius: '50%',
                 border: '1px dashed rgba(108,99,255,0.15)',
-                zIndex: 0,
-                pointerEvents: 'none',
+                zIndex: 0, pointerEvents: 'none',
               }} />
 
               {/* Photo frame */}
               <div style={{
                 position: 'relative', zIndex: 1,
                 width: '80%', height: '80%',
-                borderRadius: '20px',
-                overflow: 'hidden',
+                borderRadius: '20px', overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.08)',
                 background: 'rgba(255,255,255,0.03)',
               }}>
-                {/* ── Replace with your actual photo ── */}
-                <img src="https://noonsavath-nithin.web.app/assets/Nithin_Portfolio_pic-Dw8nE6rU.jpg" alt="Nithin Nunsavath" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                <img
+                  src="https://noonsavath-nithin.web.app/assets/Nithin_Portfolio_pic-Dw8nE6rU.jpg"
+                  alt="Nithin Nunsavath"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
               </div>
 
               {/* Floating cert badge */}
@@ -278,8 +233,7 @@ const AboutSection: React.FC = () => {
                 position: 'absolute', bottom: 24, left: -24, zIndex: 2,
                 background: 'rgba(18,18,30,0.92)',
                 border: '1px solid rgba(108,99,255,0.4)',
-                borderRadius: '14px',
-                padding: '10px 16px',
+                borderRadius: '14px', padding: '10px 16px',
                 backdropFilter: 'blur(12px)',
                 display: 'flex', alignItems: 'center', gap: '10px',
               }}>
@@ -290,14 +244,12 @@ const AboutSection: React.FC = () => {
                   fontSize: '16px',
                 }}>🏆</div>
                 <div>
-                  <div style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontWeight: 600, fontSize: '12px', color: '#E0E0F0',
-                  }}>DP-600 Certified</div>
-                  <div style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: '10px', color: '#6C63FF', marginTop: '1px',
-                  }}>Microsoft Fabric</div>
+                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: '12px', color: '#E0E0F0' }}>
+                    DP-600 Certified
+                  </div>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#6C63FF', marginTop: '1px' }}>
+                    Microsoft Fabric
+                  </div>
                 </div>
               </div>
 
@@ -306,28 +258,23 @@ const AboutSection: React.FC = () => {
                 position: 'absolute', top: 24, right: -20, zIndex: 2,
                 background: 'rgba(18,18,30,0.92)',
                 border: '1px solid rgba(0,201,167,0.35)',
-                borderRadius: '12px',
-                padding: '8px 14px',
+                borderRadius: '12px', padding: '8px 14px',
                 backdropFilter: 'blur(12px)',
               }}>
-                <div style={{
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: '10px', color: '#00C9A7', letterSpacing: '0.06em',
-                }}>IBM SkillBuild</div>
-                <div style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: '11px', fontWeight: 500, color: '#C0C0D8', marginTop: '2px',
-                }}>National Pitch Night</div>
+                <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#00C9A7', letterSpacing: '0.06em' }}>
+                  IBM SkillBuild
+                </div>
+                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '11px', fontWeight: 500, color: '#C0C0D8', marginTop: '2px' }}>
+                  National Pitch Night
+                </div>
               </div>
             </motion.div>
 
             {/* ── RIGHT — Content column ── */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate={inView ? 'visible' : 'hidden'}
-            >
-              <motion.div variants={itemVariants}>
+            <div>
+
+              {/* Name & title */}
+              <motion.div {...fadeUp(0)}>
                 <h3 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontWeight: 700,
@@ -340,22 +287,19 @@ const AboutSection: React.FC = () => {
                 </h3>
                 <p style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: '12px',
-                  color: '#6C63FF',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
+                  fontSize: '12px', color: '#6C63FF',
+                  letterSpacing: '0.08em', textTransform: 'uppercase',
                   margin: '0 0 24px',
                 }}>
                   Data Analytics &amp; Analytics Engineering
                 </p>
               </motion.div>
 
-              <motion.p variants={itemVariants} style={{
+              {/* Bio para 1 */}
+              <motion.p {...fadeUp(0.1)} style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '15px',
-                color: 'rgba(200,200,220,0.75)',
-                lineHeight: 1.75,
-                margin: '0 0 16px',
+                fontSize: '15px', color: 'rgba(200,200,220,0.75)',
+                lineHeight: 1.75, margin: '0 0 16px',
               }}>
                 Microsoft Fabric Certified Data Analyst (DP-600) with hands-on experience at
                 <strong style={{ color: '#E0E0F0', fontWeight: 500 }}> Smith &amp; Nephew</strong>.
@@ -363,12 +307,11 @@ const AboutSection: React.FC = () => {
                 to insight delivery — using Power BI, SQL, Python, and Microsoft Fabric.
               </motion.p>
 
-              <motion.p variants={itemVariants} style={{
+              {/* Bio para 2 */}
+              <motion.p {...fadeUp(0.2)} style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '15px',
-                color: 'rgba(200,200,220,0.65)',
-                lineHeight: 1.75,
-                margin: '0 0 28px',
+                fontSize: '15px', color: 'rgba(200,200,220,0.65)',
+                lineHeight: 1.75, margin: '0 0 28px',
               }}>
                 I've automated reporting workflows, reduced 84 Power Query queries down to 9
                 optimized Lakehouse tables, and delivered dashboards that drive real operational
@@ -377,7 +320,7 @@ const AboutSection: React.FC = () => {
               </motion.p>
 
               {/* Quick highlights */}
-              <motion.div variants={itemVariants} className="about-highlights-grid" style={{ marginBottom: '28px' }}>
+              <motion.div {...fadeUp(0.3)} className="about-highlights-grid" style={{ marginBottom: '28px' }}>
                 {highlights.map((h, i) => (
                   <div key={i} style={{
                     padding: '12px 14px',
@@ -387,19 +330,15 @@ const AboutSection: React.FC = () => {
                   }}>
                     <div style={{
                       fontFamily: "'Space Mono', monospace",
-                      fontSize: '10px',
-                      color: 'rgba(108,99,255,0.8)',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
+                      fontSize: '10px', color: 'rgba(108,99,255,0.8)',
+                      letterSpacing: '0.08em', textTransform: 'uppercase',
                       marginBottom: '4px',
                     }}>
                       {h.label}
                     </div>
                     <div style={{
                       fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '13px',
-                      fontWeight: 500,
-                      color: '#D0D0E8',
+                      fontSize: '13px', fontWeight: 500, color: '#D0D0E8',
                     }}>
                       {h.value}
                     </div>
@@ -408,23 +347,23 @@ const AboutSection: React.FC = () => {
               </motion.div>
 
               {/* Stats */}
-              <motion.div variants={containerVariants} className="about-stats-grid">
+              <motion.div {...fadeUp(0.4)} className="about-stats-grid">
                 {stats.map((s, i) => (
                   <motion.div
                     key={i}
-                    variants={itemVariants}
                     onMouseEnter={() => setHoveredStat(i)}
                     onMouseLeave={() => setHoveredStat(null)}
+                    animate={{
+                      background: hoveredStat === i ? 'rgba(108,99,255,0.1)' : 'rgba(255,255,255,0.03)',
+                      borderColor: hoveredStat === i ? 'rgba(108,99,255,0.4)' : 'rgba(255,255,255,0.07)',
+                    }}
+                    transition={{ duration: 0.22 }}
                     style={{
                       textAlign: 'center',
                       padding: '16px 10px',
-                      background: hoveredStat === i
-                        ? 'rgba(108,99,255,0.1)'
-                        : 'rgba(255,255,255,0.03)',
-                      border: `1px solid ${hoveredStat === i ? 'rgba(108,99,255,0.4)' : 'rgba(255,255,255,0.07)'}`,
+                      border: '1px solid rgba(255,255,255,0.07)',
                       borderRadius: '14px',
                       cursor: 'default',
-                      transition: 'all 0.22s ease',
                     }}
                   >
                     <div style={{
@@ -438,27 +377,23 @@ const AboutSection: React.FC = () => {
                     </div>
                     <div style={{
                       fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      color: 'rgba(200,200,220,0.8)',
-                      marginTop: '2px',
+                      fontSize: '12px', fontWeight: 600,
+                      color: 'rgba(200,200,220,0.8)', marginTop: '2px',
                     }}>
                       {s.label}
                     </div>
                     <div style={{
                       fontFamily: "'Space Mono', monospace",
-                      fontSize: '9px',
-                      color: 'rgba(108,99,255,0.65)',
-                      marginTop: '3px',
-                      letterSpacing: '0.04em',
+                      fontSize: '9px', color: 'rgba(108,99,255,0.65)',
+                      marginTop: '3px', letterSpacing: '0.04em',
                     }}>
                       {s.sub}
                     </div>
                   </motion.div>
                 ))}
               </motion.div>
-            </motion.div>
 
+            </div>
           </div>
         </div>
       </section>
