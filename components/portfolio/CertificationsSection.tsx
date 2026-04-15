@@ -5,6 +5,34 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, ImageOff, X, Award } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
+/**
+ * Routes any external image URL through our server-side proxy (/api/image-proxy).
+ *
+ * WHY: Browsers enforce CORS on <img> tags for cross-origin URLs.
+ * Google Drive, Dropbox etc. don't send the required CORS headers,
+ * so the image silently fails — even when the file is public.
+ *
+ * HOW: Instead of the browser fetching the image directly from Google,
+ * we ask OUR Next.js server to fetch it and stream it back.
+ * The browser only ever talks to our own domain → no CORS issue at all.
+ *
+ * Works for: Google Drive, Dropbox, OneDrive, Imgur, Cloudinary, and any
+ * other host added to the ALLOWED_HOSTS list in route.ts.
+ *
+ * The proxy lives at: app/api/image-proxy/route.ts
+ */
+function resolveImageUrl(url: string): string {
+  if (!url) return url;
+  // Already a relative/same-origin URL — use as-is
+  try {
+    const parsed = new URL(url);
+    if (parsed.origin === window?.location?.origin) return url;
+  } catch {
+    return url; // relative path
+  }
+  return `/api/image-proxy?url=${encodeURIComponent(url)}`;
+}
+
 export function CertificationsSection() {
   const [certs, setCerts]       = useState<any[]>([]);
   const [loading, setLoading]   = useState(true);
@@ -156,12 +184,19 @@ export function CertificationsSection() {
                     {cert.image_url ? (
                       <>
                         <img
-                          src={cert.image_url}
+                          src={resolveImageUrl(cert.image_url)}
                           alt={cert.title}
                           className="w-full h-full object-cover"
                           style={{
                             filter: isHov ? 'brightness(1.05)' : 'brightness(0.85)',
                             transition: 'filter 0.3s',
+                          }}
+                          onError={(e) => {
+                            // If the resolved URL fails, hide img and show fallback
+                            const target = e.currentTarget;
+                            target.style.display = 'none';
+                            const fallback = target.nextElementSibling as HTMLElement | null;
+                            if (fallback) fallback.style.display = 'flex';
                           }}
                         />
                         {/* Overlay gradient */}
@@ -174,6 +209,14 @@ export function CertificationsSection() {
                             transition: 'background 0.3s',
                           }}
                         />
+                        {/* Hidden fallback shown via onError */}
+                        <div
+                          className="absolute inset-0 flex-col items-center justify-center gap-2"
+                          style={{ display: 'none' }}
+                        >
+                          <ImageOff className="w-8 h-8" style={{ color: 'rgba(99,102,241,0.3)' }} />
+                          <span className="text-xs font-mono" style={{ color: 'rgba(99,102,241,0.3)' }}>no preview</span>
+                        </div>
                       </>
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2">
@@ -285,10 +328,16 @@ export function CertificationsSection() {
               {viewCert.image_url && (
                 <div className="relative w-full" style={{ background: 'rgba(99,102,241,0.04)' }}>
                   <img
-                    src={viewCert.image_url}
+                    src={resolveImageUrl(viewCert.image_url)}
                     alt={viewCert.title}
                     className="w-full object-contain"
                     style={{ maxHeight: '65vh', display: 'block' }}
+                    onError={(e) => {
+                      // Hide the broken image container gracefully
+                      const target = e.currentTarget;
+                      const wrapper = target.closest('.relative.w-full') as HTMLElement | null;
+                      if (wrapper) wrapper.style.display = 'none';
+                    }}
                   />
                   {/* Bottom gradient fade into content */}
                   <div
