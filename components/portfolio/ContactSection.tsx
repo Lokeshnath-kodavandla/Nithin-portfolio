@@ -30,7 +30,7 @@ const CONTACT = {
 function Corner({ className }: { className?: string }) {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={className}>
-      <path d="M0 12 L0 0 L12 0" stroke="#6366f1" strokeWidth="1.5" />
+      <path d="M0 12 L0 0 L12 0" stroke="var(--corner-stroke)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -50,14 +50,14 @@ function CopyButton({ value }: { value: string }) {
       onClick={handleCopy}
       className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:scale-110"
       style={{
-        background: copied ? 'rgba(79,70,229,0.2)' : 'rgba(99,102,241,0.08)',
-        border: `1px solid ${copied ? 'rgba(99,102,241,0.5)' : 'rgba(99,102,241,0.18)'}`,
+        background: copied ? `rgba(var(--accent-rgb), 0.2)` : `rgba(var(--accent-rgb), 0.08)`,
+        border: `1px solid ${copied ? `rgba(var(--accent-rgb), 0.5)` : `rgba(var(--accent-rgb), 0.18)`}`,
       }}
       title="Copy to clipboard"
     >
       {copied
-        ? <Check className="w-3.5 h-3.5" style={{ color: '#a5b4fc' }} />
-        : <Copy className="w-3.5 h-3.5" style={{ color: '#818cf8' }} />
+        ? <Check className="w-3.5 h-3.5" style={{ color: 'var(--text-accent-lighter)' }} />
+        : <Copy className="w-3.5 h-3.5" style={{ color: 'var(--accent-light)' }} />
       }
     </button>
   );
@@ -91,8 +91,8 @@ function InfoRow({
       <div
         className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
         style={{
-          background: 'rgba(79,70,229,0.1)',
-          border: '1px solid rgba(99,102,241,0.22)',
+          background: 'var(--badge-bg)',
+          border: `1px solid rgba(var(--accent-rgb), 0.22)`,
         }}
       >
         {icon}
@@ -100,7 +100,7 @@ function InfoRow({
 
       {/* Text */}
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] font-mono tracking-widest uppercase mb-0.5" style={{ color: '#818cf8' }}>
+        <p className="text-[10px] font-mono tracking-widest uppercase mb-0.5" style={{ color: 'var(--accent-light)' }}>
           {label}
         </p>
         {href ? (
@@ -109,12 +109,12 @@ function InfoRow({
             target={href.startsWith('http') ? '_blank' : undefined}
             rel="noopener noreferrer"
             className="text-sm font-medium truncate block transition-colors duration-200 hover:underline"
-            style={{ color: '#c7d2fe' }}
+            style={{ color: 'var(--text-accent-lightest)' }}
           >
             {value}
           </a>
         ) : (
-          <p className="text-sm font-medium truncate" style={{ color: '#c7d2fe' }}>
+          <p className="text-sm font-medium truncate" style={{ color: 'var(--text-accent-lightest)' }}>
             {value}
           </p>
         )}
@@ -153,9 +153,9 @@ function SocialBtn({
       className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all"
       style={{
         background: accent,
-        border: '1px solid rgba(99,102,241,0.3)',
-        color: '#f1f5f9',
-        boxShadow: '0 0 20px rgba(79,70,229,0.2)',
+        border: `1px solid rgba(var(--accent-rgb), 0.3)`,
+        color: 'var(--text-heading)',
+        boxShadow: `0 0 20px rgba(var(--accent-rgb), 0.2)`,
         minWidth: 0,
       }}
     >
@@ -179,15 +179,14 @@ const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative py-24 px-4 sm:px-6 overflow-hidden"
-      style={{ background: '#0a0b1a' }}
+      className="relative py-24 px-4 sm:px-6 overflow-hidden theme-transition"
+      style={{ background: 'var(--section-bg)' }}
     >
       {/* Subtle grid */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(99,102,241,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.035) 1px, transparent 1px)',
+          backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
           backgroundSize: '48px 48px',
         }}
       />
@@ -196,7 +195,7 @@ const ContactSection: React.FC = () => {
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(79,70,229,0.07) 0%, transparent 65%)',
+          background: `radial-gradient(circle, rgba(var(--accent-rgb), 0.07) 0%, transparent 65%)`,
           filter: 'blur(60px)',
         }}
       />
@@ -213,24 +212,24 @@ const ContactSection: React.FC = () => {
           <div
             className="inline-flex items-center gap-2 mb-5 px-3 py-1 rounded-full"
             style={{
-              background: 'rgba(79,70,229,0.1)',
-              border: '1px solid rgba(99,102,241,0.25)',
+              background: 'var(--badge-bg)',
+              border: `1px solid var(--badge-border)`,
             }}
           >
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#6366f1' }} />
-            <span className="text-xs font-mono tracking-widest uppercase" style={{ color: '#818cf8' }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'var(--accent-color)' }} />
+            <span className="text-xs font-mono tracking-widest uppercase" style={{ color: 'var(--badge-text)' }}>
               Get In Touch
             </span>
           </div>
 
           <h2
             className="text-4xl sm:text-5xl font-bold mb-4"
-            style={{ color: '#f1f5f9', letterSpacing: '-0.03em' }}
+            style={{ color: 'var(--text-heading)', letterSpacing: '-0.03em' }}
           >
             Contact{' '}
             <span
               style={{
-                background: 'linear-gradient(90deg, #6366f1, #a5b4fc)',
+                background: `linear-gradient(90deg, var(--accent-color), var(--text-accent-lighter))`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -239,7 +238,7 @@ const ContactSection: React.FC = () => {
               Me
             </span>
           </h2>
-          <p className="text-sm" style={{ color: '#94a3b8' }}>
+          <p className="text-sm" style={{ color: 'var(--text-body)' }}>
             Open to Data Analytics & Analytics Engineering roles
           </p>
         </motion.div>
@@ -252,9 +251,9 @@ const ContactSection: React.FC = () => {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="relative rounded-2xl overflow-hidden"
           style={{
-            background: 'linear-gradient(160deg, #0e0f23 0%, #0a0b1a 100%)',
-            border: '1px solid rgba(99,102,241,0.2)',
-            boxShadow: '0 0 60px rgba(79,70,229,0.08), 0 24px 48px rgba(0,0,0,0.5)',
+            background: 'var(--gradient-card)',
+            border: `1px solid rgba(var(--accent-rgb), 0.2)`,
+            boxShadow: `0 0 60px rgba(var(--accent-rgb), 0.08), 0 24px 48px rgba(0,0,0,0.2)`,
           }}
         >
           {/* Corner accents */}
@@ -267,7 +266,7 @@ const ContactSection: React.FC = () => {
           <div
             className="h-[2px] w-full"
             style={{
-              background: 'linear-gradient(90deg, transparent, #4f46e5, #6366f1, transparent)',
+              background: `linear-gradient(90deg, transparent, var(--accent-color), var(--accent-light), transparent)`,
             }}
           />
 
@@ -275,7 +274,7 @@ const ContactSection: React.FC = () => {
             {/* ── Contact info rows ── */}
             <div className="space-y-5 mb-8">
               <InfoRow
-                icon={<Mail className="w-4 h-4" style={{ color: '#818cf8' }} />}
+                icon={<Mail className="w-4 h-4" style={{ color: 'var(--accent-light)' }} />}
                 label="Email"
                 value={CONTACT.email}
                 href={`mailto:${CONTACT.email}`}
@@ -283,13 +282,10 @@ const ContactSection: React.FC = () => {
                 delay={0.1}
               />
 
-              <div
-                className="h-px"
-                style={{ background: 'rgba(99,102,241,0.1)' }}
-              />
+              <div className="h-px" style={{ background: `rgba(var(--accent-rgb), 0.1)` }} />
 
               <InfoRow
-                icon={<Phone className="w-4 h-4" style={{ color: '#818cf8' }} />}
+                icon={<Phone className="w-4 h-4" style={{ color: 'var(--accent-light)' }} />}
                 label="Phone"
                 value={CONTACT.phone}
                 href={`tel:${CONTACT.phone.replace(/\s/g, '')}`}
@@ -297,13 +293,10 @@ const ContactSection: React.FC = () => {
                 delay={0.15}
               />
 
-              <div
-                className="h-px"
-                style={{ background: 'rgba(99,102,241,0.1)' }}
-              />
+              <div className="h-px" style={{ background: `rgba(var(--accent-rgb), 0.1)` }} />
 
               <InfoRow
-                icon={<MapPin className="w-4 h-4" style={{ color: '#818cf8' }} />}
+                icon={<MapPin className="w-4 h-4" style={{ color: 'var(--accent-light)' }} />}
                 label="Location"
                 value={CONTACT.location}
                 delay={0.2}
@@ -314,7 +307,7 @@ const ContactSection: React.FC = () => {
             <div
               className="mb-7 h-px"
               style={{
-                background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.35), transparent)',
+                background: `linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.35), transparent)`,
               }}
             />
 
@@ -324,21 +317,21 @@ const ContactSection: React.FC = () => {
                 href={CONTACT.linkedin}
                 icon={<Linkedin className="w-4 h-4" />}
                 label="LinkedIn"
-                accent="linear-gradient(135deg, #1a1f3a, #1e2a4a)"
+                accent="var(--badge-bg)"
                 delay={0.25}
               />
               <SocialBtn
                 href={CONTACT.github}
                 icon={<Github className="w-4 h-4" />}
                 label="GitHub"
-                accent="linear-gradient(135deg, #111827, #1f2937)"
+                accent="var(--badge-bg)"
                 delay={0.3}
               />
               <SocialBtn
                 href={`mailto:${CONTACT.email}`}
                 icon={<Send className="w-4 h-4" />}
                 label="Email"
-                accent="linear-gradient(135deg, #4f46e5, #6366f1)"
+                accent="var(--gradient-accent)"
                 delay={0.35}
               />
               <SocialBtn
@@ -362,7 +355,7 @@ const ContactSection: React.FC = () => {
                 className="w-2 h-2 rounded-full animate-pulse"
                 style={{ background: '#4ade80' }}
               />
-              <span className="text-xs font-mono" style={{ color: '#94a3b8' }}>
+              <span className="text-xs font-mono" style={{ color: 'var(--text-body)' }}>
                 Available for full-time roles · Pune / Remote
               </span>
             </motion.div>

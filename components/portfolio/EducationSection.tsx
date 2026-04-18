@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Calendar, MapPin, GraduationCap, Code2 } from 'lucide-react';
 
@@ -49,7 +49,7 @@ const educationHistory: Education[] = [
 function Corner({ className }: { className?: string }) {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className={className}>
-      <path d="M0 14 L0 0 L14 0" stroke="#6366f1" strokeWidth="1.5" />
+      <path d="M0 14 L0 0 L14 0" stroke="var(--corner-stroke)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -69,12 +69,12 @@ function AnimatedText({ text, gradient }: { text: string; gradient?: boolean }) 
         style={
           gradient
             ? {
-                background: 'linear-gradient(90deg, #6366f1, #a5b4fc)',
+                background: `linear-gradient(90deg, var(--accent-color), var(--text-accent-lighter))`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }
-            : { color: '#f1f5f9' }
+            : { color: 'var(--text-heading)' }
         }
       >
         {text}
@@ -89,9 +89,9 @@ function Pill({ label }: { label: string }) {
     <span
       className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-wide"
       style={{
-        background: 'rgba(79,70,229,0.1)',
-        border: '1px solid rgba(99,102,241,0.22)',
-        color: '#818cf8',
+        background: 'var(--badge-bg)',
+        border: `1px solid rgba(var(--accent-rgb), 0.22)`,
+        color: 'var(--badge-text)',
       }}
     >
       {label}
@@ -118,13 +118,12 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
         <motion.div
           className="relative rounded-2xl overflow-hidden"
           style={{
-            background: 'linear-gradient(160deg, #0e0f23 0%, #0a0b1a 100%)',
-            border: '1px solid rgba(99,102,241,0.18)',
+            background: 'var(--gradient-card)',
+            border: `1px solid var(--card-border)`,
           }}
           whileHover={{
-            borderColor: 'rgba(99,102,241,0.5)',
-            boxShadow:
-              '0 0 48px rgba(79,70,229,0.13), 0 20px 48px rgba(0,0,0,0.55)',
+            borderColor: `rgba(var(--accent-rgb), 0.5)`,
+            boxShadow: `0 0 48px rgba(var(--accent-rgb), 0.13), 0 20px 48px rgba(0,0,0,0.25)`,
             y: -5,
           }}
           transition={{ duration: 0.25 }}
@@ -139,8 +138,7 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
           <div
             className="h-[2px] w-full"
             style={{
-              background:
-                'linear-gradient(90deg, transparent, #4f46e5, #6366f1, transparent)',
+              background: `linear-gradient(90deg, transparent, var(--accent-color), var(--accent-light), transparent)`,
             }}
           />
 
@@ -150,23 +148,23 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center"
                 style={{
-                  background: 'rgba(79,70,229,0.12)',
-                  border: '1px solid rgba(99,102,241,0.25)',
+                  background: 'var(--badge-bg)',
+                  border: `1px solid var(--badge-border)`,
                 }}
               >
                 {edu.type === 'self' ? (
-                  <Code2 className="w-5 h-5" style={{ color: '#818cf8' }} />
+                  <Code2 className="w-5 h-5" style={{ color: 'var(--accent-light)' }} />
                 ) : (
-                  <GraduationCap className="w-5 h-5" style={{ color: '#818cf8' }} />
+                  <GraduationCap className="w-5 h-5" style={{ color: 'var(--accent-light)' }} />
                 )}
               </div>
 
               <span
                 className="text-[10px] font-mono tracking-widest uppercase px-2.5 py-1 rounded-full"
                 style={{
-                  background: 'rgba(79,70,229,0.1)',
-                  border: '1px solid rgba(99,102,241,0.2)',
-                  color: '#818cf8',
+                  background: 'var(--badge-bg)',
+                  border: `1px solid rgba(var(--accent-rgb), 0.2)`,
+                  color: 'var(--badge-text)',
                 }}
               >
                 {edu.type === 'self' ? 'Self-Directed' : 'Academic'}
@@ -176,20 +174,20 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
             {/* Degree */}
             <h3
               className="text-base font-bold mb-1 leading-snug"
-              style={{ color: '#f1f5f9', letterSpacing: '-0.015em' }}
+              style={{ color: 'var(--text-heading)', letterSpacing: '-0.015em' }}
             >
               {edu.degree}
             </h3>
 
             {/* Institution */}
-            <p className="text-sm font-semibold mb-1" style={{ color: '#a5b4fc' }}>
+            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-accent-lighter)' }}>
               {edu.institution}
             </p>
 
             {/* Location */}
             <div className="flex items-center gap-1 mb-4">
-              <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: '#818cf8' }} />
-              <span className="text-xs" style={{ color: '#94a3b8' }}>
+              <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: 'var(--accent-light)' }} />
+              <span className="text-xs" style={{ color: 'var(--text-body)' }}>
                 {edu.location}
               </span>
             </div>
@@ -198,12 +196,12 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
             <div
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg mb-5"
               style={{
-                background: 'rgba(99,102,241,0.07)',
-                border: '1px solid rgba(99,102,241,0.16)',
+                background: `rgba(var(--accent-rgb), 0.07)`,
+                border: `1px solid rgba(var(--accent-rgb), 0.16)`,
               }}
             >
-              <Calendar className="w-3 h-3" style={{ color: '#6366f1' }} />
-              <span className="text-xs font-mono" style={{ color: '#818cf8' }}>
+              <Calendar className="w-3 h-3" style={{ color: 'var(--accent-color)' }} />
+              <span className="text-xs font-mono" style={{ color: 'var(--accent-light)' }}>
                 {edu.startDate} — {edu.endDate}
               </span>
             </div>
@@ -212,13 +210,12 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
             <div
               className="mb-4 h-px"
               style={{
-                background:
-                  'linear-gradient(90deg, rgba(99,102,241,0.3), transparent)',
+                background: `linear-gradient(90deg, rgba(var(--accent-rgb), 0.3), transparent)`,
               }}
             />
 
             {/* Description */}
-            <p className="text-sm leading-7 mb-5" style={{ color: '#94a3b8' }}>
+            <p className="text-sm leading-7 mb-5" style={{ color: 'var(--text-body)' }}>
               {edu.description}
             </p>
 
@@ -243,9 +240,9 @@ function EduCard({ edu, index }: { edu: Education; index: number }) {
           transition={{ duration: 0.4, delay: index * 0.13 + 0.2 }}
           className="w-4 h-4 rounded-full"
           style={{
-            background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
-            boxShadow: '0 0 18px rgba(99,102,241,0.75)',
-            border: '2px solid #0a0b1a',
+            background: 'var(--gradient-accent)',
+            boxShadow: `0 0 18px rgba(var(--accent-rgb), 0.75)`,
+            border: `2px solid var(--section-bg)`,
           }}
         />
       </div>
@@ -261,15 +258,14 @@ const EducationSection: React.FC = () => {
   return (
     <section
       id="education"
-      className="relative py-24 px-4 sm:px-6 overflow-hidden"
-      style={{ background: '#0a0b1a' }}
+      className="relative py-24 px-4 sm:px-6 overflow-hidden theme-transition"
+      style={{ background: 'var(--section-bg)' }}
     >
       {/* Grid background */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px)',
+          backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
           backgroundSize: '48px 48px',
         }}
       />
@@ -278,16 +274,14 @@ const EducationSection: React.FC = () => {
       <div
         className="absolute top-16 left-1/3 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background:
-            'radial-gradient(circle, rgba(79,70,229,0.07) 0%, transparent 70%)',
+          background: `radial-gradient(circle, rgba(var(--accent-rgb), 0.07) 0%, transparent 70%)`,
           filter: 'blur(48px)',
         }}
       />
       <div
         className="absolute bottom-16 right-1/3 w-72 h-72 rounded-full pointer-events-none"
         style={{
-          background:
-            'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
+          background: `radial-gradient(circle, rgba(var(--accent-rgb), 0.05) 0%, transparent 70%)`,
           filter: 'blur(48px)',
         }}
       />
@@ -305,17 +299,17 @@ const EducationSection: React.FC = () => {
           <div
             className="inline-flex items-center gap-2 mb-5 px-3 py-1 rounded-full"
             style={{
-              background: 'rgba(79,70,229,0.1)',
-              border: '1px solid rgba(99,102,241,0.25)',
+              background: 'var(--badge-bg)',
+              border: `1px solid var(--badge-border)`,
             }}
           >
             <span
               className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ background: '#6366f1' }}
+              style={{ background: 'var(--accent-color)' }}
             />
             <span
               className="text-xs font-mono tracking-widest uppercase"
-              style={{ color: '#818cf8' }}
+              style={{ color: 'var(--badge-text)' }}
             >
               Academic Background
             </span>
@@ -330,7 +324,7 @@ const EducationSection: React.FC = () => {
             <AnimatedText text="Training" gradient />
           </h2>
 
-          <p className="text-sm max-w-xs mx-auto" style={{ color: '#94a3b8' }}>
+          <p className="text-sm max-w-xs mx-auto" style={{ color: 'var(--text-body)' }}>
             Academic roots and continuous self-development
           </p>
         </motion.div>
@@ -341,8 +335,7 @@ const EducationSection: React.FC = () => {
           <div
             className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px"
             style={{
-              background:
-                'linear-gradient(to bottom, transparent, rgba(99,102,241,0.4) 12%, rgba(99,102,241,0.4) 88%, transparent)',
+              background: `linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.4) 12%, rgba(var(--accent-rgb), 0.4) 88%, transparent)`,
             }}
           />
 

@@ -56,15 +56,15 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative py-28 px-4 sm:px-6 overflow-hidden"
-      style={{ background: '#0a0b1a' }}
+      className="relative py-28 px-4 sm:px-6 overflow-hidden theme-transition"
+      style={{ background: 'var(--section-bg)' }}
     >
       {/* Grid background */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)',
+            `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
           backgroundSize: '44px 44px',
         }}
       />
@@ -75,7 +75,7 @@ export function SkillsSection() {
         style={{
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
+          background: `radial-gradient(circle, var(--glow-color) 0%, transparent 70%)`,
         }}
       />
 
@@ -89,28 +89,28 @@ export function SkillsSection() {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <p className="text-xs font-mono tracking-[0.3em] uppercase mb-3" style={{ color: '#6366f1' }}>
+          <p className="text-xs font-mono tracking-[0.3em] uppercase mb-3" style={{ color: 'var(--text-accent)' }}>
             &gt; expertise
           </p>
 
           <h2
             className="text-4xl sm:text-5xl font-bold tracking-tight"
-            style={{ color: '#f1f5f9' }}
+            style={{ color: 'var(--text-heading)' }}
           >
             Skills &amp;{' '}
-            <span style={{ color: '#818cf8' }}>Tools</span>
+            <span style={{ color: 'var(--accent-light)' }}>Tools</span>
           </h2>
 
           {/* Decorative line */}
           <div className="flex items-center justify-center gap-3 mt-5">
-            <div className="h-px w-16" style={{ background: 'rgba(99,102,241,0.3)' }} />
+            <div className="h-px w-16" style={{ background: `rgba(var(--accent-rgb), 0.3)` }} />
             <motion.div
               className="w-1.5 h-1.5 rounded-full"
-              style={{ background: '#6366f1' }}
+              style={{ background: 'var(--accent-color)' }}
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <div className="h-px w-16" style={{ background: 'rgba(99,102,241,0.3)' }} />
+            <div className="h-px w-16" style={{ background: `rgba(var(--accent-rgb), 0.3)` }} />
           </div>
         </motion.div>
 
@@ -121,14 +121,14 @@ export function SkillsSection() {
               <motion.div
                 key={i}
                 className="h-28 rounded-xl"
-                style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.1)' }}
+                style={{ background: `rgba(var(--accent-rgb), 0.06)`, border: `1px solid rgba(var(--accent-rgb), 0.1)` }}
                 animate={{ opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
               />
             ))}
           </div>
         ) : skills.length === 0 ? (
-          <div className="text-center py-16 font-mono text-sm" style={{ color: '#4f46e5' }}>
+          <div className="text-center py-16 font-mono text-sm" style={{ color: 'var(--accent-color)' }}>
             _ no skills found
           </div>
         ) : (
@@ -151,11 +151,11 @@ export function SkillsSection() {
                   className="relative rounded-xl p-5 flex flex-col items-center gap-3 cursor-default overflow-hidden"
                   style={{
                     background: isHovered
-                      ? 'rgba(99,102,241,0.1)'
-                      : 'rgba(15,15,30,0.7)',
+                      ? 'var(--card-bg-hover)'
+                      : 'var(--card-bg)',
                     border: isHovered
-                      ? '1px solid rgba(99,102,241,0.35)'
-                      : '1px solid rgba(99,102,241,0.12)',
+                      ? `1px solid var(--card-border-hover)`
+                      : `1px solid var(--card-border)`,
                     backdropFilter: 'blur(12px)',
                     transition: 'background 0.25s, border-color 0.25s',
                   }}
@@ -164,16 +164,16 @@ export function SkillsSection() {
                   <div
                     className="absolute top-0 right-0 w-6 h-6 pointer-events-none"
                     style={{
-                      borderTop: `1px solid ${isHovered ? 'rgba(99,102,241,0.6)' : 'rgba(99,102,241,0.2)'}`,
-                      borderRight: `1px solid ${isHovered ? 'rgba(99,102,241,0.6)' : 'rgba(99,102,241,0.2)'}`,
+                      borderTop: `1px solid ${isHovered ? `rgba(var(--accent-rgb), 0.6)` : `rgba(var(--accent-rgb), 0.2)`}`,
+                      borderRight: `1px solid ${isHovered ? `rgba(var(--accent-rgb), 0.6)` : `rgba(var(--accent-rgb), 0.2)`}`,
                       transition: 'border-color 0.25s',
                     }}
                   />
                   <div
                     className="absolute bottom-0 left-0 w-6 h-6 pointer-events-none"
                     style={{
-                      borderBottom: `1px solid ${isHovered ? 'rgba(99,102,241,0.6)' : 'rgba(99,102,241,0.2)'}`,
-                      borderLeft: `1px solid ${isHovered ? 'rgba(99,102,241,0.6)' : 'rgba(99,102,241,0.2)'}`,
+                      borderBottom: `1px solid ${isHovered ? `rgba(var(--accent-rgb), 0.6)` : `rgba(var(--accent-rgb), 0.2)`}`,
+                      borderLeft: `1px solid ${isHovered ? `rgba(var(--accent-rgb), 0.6)` : `rgba(var(--accent-rgb), 0.2)`}`,
                       transition: 'border-color 0.25s',
                     }}
                   />
@@ -183,7 +183,7 @@ export function SkillsSection() {
                     <motion.div
                       className="absolute left-0 right-0 h-px pointer-events-none"
                       style={{
-                        background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent)',
+                        background: `linear-gradient(90deg, transparent, var(--scanline-color), transparent)`,
                       }}
                       animate={{ top: ['0%', '100%'] }}
                       transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
@@ -195,15 +195,15 @@ export function SkillsSection() {
                     className="relative w-11 h-11 rounded-lg flex items-center justify-center"
                     style={{
                       background: isHovered
-                        ? 'rgba(99,102,241,0.2)'
-                        : 'rgba(99,102,241,0.08)',
-                      border: '1px solid rgba(99,102,241,0.2)',
+                        ? `rgba(var(--accent-rgb), 0.2)`
+                        : `rgba(var(--accent-rgb), 0.08)`,
+                      border: `1px solid rgba(var(--accent-rgb), 0.2)`,
                       transition: 'background 0.25s',
                     }}
                     animate={isHovered ? { scale: [1, 1.1, 1] } : {}}
                     transition={{ duration: 0.5 }}
                   >
-                  <span style={{ color: isHovered ? '#a5b4fc' : '#818cf8' }} className="w-5 h-5 flex items-center justify-center">
+                  <span style={{ color: isHovered ? 'var(--text-accent-lighter)' : 'var(--accent-light)' }} className="w-5 h-5 flex items-center justify-center">
                     <Icon />
                   </span>
 
@@ -211,7 +211,7 @@ export function SkillsSection() {
                     {isHovered && (
                       <motion.span
                         className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-                        style={{ background: '#6366f1' }}
+                        style={{ background: 'var(--accent-color)' }}
                         animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
                         transition={{ duration: 1, repeat: Infinity }}
                       />
@@ -221,7 +221,7 @@ export function SkillsSection() {
                   {/* Label */}
                   <span
                     className="text-xs sm:text-sm font-mono font-medium text-center leading-tight"
-                    style={{ color: isHovered ? '#c7d2fe' : '#94a3b8', transition: 'color 0.25s' }}
+                    style={{ color: isHovered ? 'var(--text-accent-lightest)' : 'var(--text-body)', transition: 'color 0.25s' }}
                   >
                     {skill.name}
                   </span>
@@ -229,7 +229,7 @@ export function SkillsSection() {
                   {/* Index number */}
                   <span
                     className="absolute top-2 left-3 text-[10px] font-mono"
-                    style={{ color: 'rgba(99,102,241,0.3)' }}
+                    style={{ color: `rgba(var(--accent-rgb), 0.3)` }}
                   >
                     {String(index + 1).padStart(2, '0')}
                   </span>
@@ -247,11 +247,11 @@ export function SkillsSection() {
           transition={{ delay: 0.5 }}
           className="flex items-center justify-center gap-2 mt-14"
         >
-          <div className="h-px flex-1 max-w-xs" style={{ background: 'rgba(99,102,241,0.1)' }} />
-          <span className="text-xs font-mono" style={{ color: 'rgba(99,102,241,0.4)' }}>
+          <div className="h-px flex-1 max-w-xs" style={{ background: `rgba(var(--accent-rgb), 0.1)` }} />
+          <span className="text-xs font-mono" style={{ color: `rgba(var(--accent-rgb), 0.4)` }}>
             {skills.length} tools loaded
           </span>
-          <div className="h-px flex-1 max-w-xs" style={{ background: 'rgba(99,102,241,0.1)' }} />
+          <div className="h-px flex-1 max-w-xs" style={{ background: `rgba(var(--accent-rgb), 0.1)` }} />
         </motion.div>
 
       </div>

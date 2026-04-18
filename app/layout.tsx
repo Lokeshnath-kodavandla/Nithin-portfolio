@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ThemeProviderWrapper } from '@/components/ThemeProviderWrapper';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -15,9 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans`}>
-        {children}
+        <ThemeProviderWrapper>
+          {children}
+        </ThemeProviderWrapper>
       </body>
     </html>
   );

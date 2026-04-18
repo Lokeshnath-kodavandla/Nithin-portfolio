@@ -7,6 +7,8 @@ import  EducationSection  from '@/components/portfolio/EducationSection';
 import { SnakeGame } from '@/components/game/SnakeGame';
 import  AboutSection  from '@/components/portfolio/AboutSection';
 import ContactSection from '@/components/portfolio/ContactSection';
+import { ThemeToggle } from '@/components/ThemeToggle';
+
 export default function Home() {
   return (
     <main className="relative">
@@ -21,14 +23,27 @@ export default function Home() {
         <SnakeGame />
         <ContactSection/>
       </div>
-      <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer
+        className="border-t py-8 text-center text-xs theme-transition"
+        style={{
+          background: 'var(--section-bg)',
+          color: 'var(--text-muted)',
+          borderColor: 'var(--divider)',
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span>
-            <span className="electric-text font-semibold">Nithin</span> — Data Analyst
+            <span style={{ color: 'var(--text-accent)' }} className="font-semibold">Nithin</span>
+            <span style={{ color: 'var(--text-body)' }}> — Data Analyst</span>
           </span>
+
+          {/* Theme Switcher */}
+          <ThemeToggle />
+
           <a
             href="/admin"
-            className="hover:electric-text transition-colors duration-200"
+            className="admin-footer-link transition-colors duration-200"
+            style={{ color: 'var(--text-muted)' }}
           >
             Admin Dashboard →
           </a>

@@ -9,7 +9,6 @@ import type { Project } from '@/lib/types';
 // ─── YouTube embed URL extractor ─────────────────────────────────────────────
 function getYouTubeEmbedUrl(url: string): string | null {
   if (!url) return null;
-  // Handles: youtu.be/ID, youtube.com/watch?v=ID, youtube.com/embed/ID, youtube.com/v/ID, youtube.com/shorts/ID
   const match = url.match(
     /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([A-Za-z0-9_-]{11})/
   );
@@ -24,7 +23,7 @@ function CornerDecor({ className }: { className?: string }) {
       className={className}
       fill="none"
     >
-      <path d="M0 20 L0 0 L20 0" stroke="#6366f1" strokeWidth="1.5" />
+      <path d="M0 20 L0 0 L20 0" stroke="var(--corner-stroke)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -46,7 +45,7 @@ function YouTubeModal({ url, onClose }: { url: string; onClose: () => void }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-8"
-        style={{ background: 'rgba(6,6,15,0.92)', backdropFilter: 'blur(16px)' }}
+        style={{ background: 'var(--overlay-bg)', backdropFilter: 'blur(16px)' }}
         onClick={onClose}
       >
         <motion.div
@@ -59,11 +58,11 @@ function YouTubeModal({ url, onClose }: { url: string; onClose: () => void }) {
         >
           {/* Glow */}
           <div className="absolute -inset-1 rounded-2xl opacity-40 blur-xl"
-            style={{ background: 'linear-gradient(135deg, #4f46e5, #6366f1)' }} />
+            style={{ background: 'var(--gradient-accent)' }} />
 
           {/* Frame */}
           <div className="relative rounded-2xl overflow-hidden aspect-video"
-            style={{ border: '1px solid rgba(99,102,241,0.35)', background: '#06060f' }}>
+            style={{ border: `1px solid var(--card-border-hover)`, background: 'var(--hero-bg)' }}>
             {embedUrl ? (
               <iframe
                 src={embedUrl}
@@ -73,11 +72,11 @@ function YouTubeModal({ url, onClose }: { url: string; onClose: () => void }) {
               />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center gap-3"
-                style={{ color: '#818cf8' }}>
+                style={{ color: 'var(--accent-light)' }}>
                 <Play className="w-10 h-10 opacity-30" />
-                <p className="text-sm" style={{ color: '#94a3b8' }}>Unable to parse YouTube URL</p>
+                <p className="text-sm" style={{ color: 'var(--text-body)' }}>Unable to parse YouTube URL</p>
                 <a href={url} target="_blank" rel="noopener noreferrer"
-                  className="text-xs underline" style={{ color: '#6366f1' }}>
+                  className="text-xs underline" style={{ color: 'var(--text-accent)' }}>
                   Open original link
                 </a>
               </div>
@@ -88,7 +87,7 @@ function YouTubeModal({ url, onClose }: { url: string; onClose: () => void }) {
           <button
             onClick={onClose}
             className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all"
-            style={{ background: '#4f46e5', border: '1px solid rgba(99,102,241,0.5)' }}
+            style={{ background: 'var(--accent-color)', border: `1px solid rgba(var(--accent-rgb), 0.5)` }}
           >
             <X className="w-4 h-4" style={{ color: '#f1f5f9' }} />
           </button>
@@ -125,7 +124,7 @@ function DescriptionModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
-        style={{ background: 'rgba(6,6,15,0.85)', backdropFilter: 'blur(20px)' }}
+        style={{ background: 'var(--overlay-bg)', backdropFilter: 'blur(20px)' }}
         onClick={onClose}
       >
         <motion.div
@@ -135,9 +134,9 @@ function DescriptionModal({
           transition={{ type: 'spring', damping: 24, stiffness: 300 }}
           className="relative w-full max-w-lg max-h-[85vh] flex flex-col rounded-2xl overflow-hidden"
           style={{
-            background: 'linear-gradient(160deg, #0e0f23 0%, #0a0b1a 100%)',
-            border: '1px solid rgba(99,102,241,0.25)',
-            boxShadow: '0 0 60px rgba(79,70,229,0.15), 0 24px 48px rgba(0,0,0,0.6)',
+            background: 'var(--gradient-card)',
+            border: `1px solid rgba(var(--accent-rgb), 0.25)`,
+            boxShadow: `0 0 60px rgba(var(--accent-rgb), 0.15), 0 24px 48px rgba(0,0,0,0.3)`,
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -151,12 +150,12 @@ function DescriptionModal({
           <button
             onClick={onClose}
             className="absolute top-4 right-4 z-10 w-8 h-8 rounded-lg flex items-center justify-center transition-all"
-            style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}
+            style={{ background: `rgba(var(--accent-rgb), 0.1)`, border: `1px solid rgba(var(--accent-rgb), 0.2)` }}
           >
-            <X className="w-4 h-4" style={{ color: '#818cf8' }} />
+            <X className="w-4 h-4" style={{ color: 'var(--accent-light)' }} />
           </button>
 
-          {/* Thumbnail — fixed, doesn't scroll */}
+          {/* Thumbnail */}
           {project.thumbnail_url && (
             <div className="relative h-44 flex-shrink-0 overflow-hidden">
               <img
@@ -165,8 +164,7 @@ function DescriptionModal({
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0"
-                style={{ background: 'linear-gradient(to bottom, transparent 40%, #0a0b1a 100%)' }} />
-              {/* Scan-line overlay */}
+                style={{ background: 'var(--gradient-fade)' }} />
               <div className="absolute inset-0 opacity-10"
                 style={{
                   backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.4) 2px, rgba(0,0,0,0.4) 4px)',
@@ -176,27 +174,27 @@ function DescriptionModal({
 
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto px-6 pb-6 pt-4"
-            style={{ scrollbarWidth: 'thin', scrollbarColor: '#4f46e5 transparent' }}>
+            style={{ scrollbarWidth: 'thin', scrollbarColor: `var(--accent-color) transparent` }}>
 
             {/* Tag + title */}
             <div className="flex items-center gap-2 mb-2">
               <span className="text-[10px] font-mono tracking-widest uppercase px-2 py-0.5 rounded"
-                style={{ background: 'rgba(79,70,229,0.15)', color: '#818cf8', border: '1px solid rgba(99,102,241,0.2)' }}>
+                style={{ background: 'var(--badge-bg)', color: 'var(--badge-text)', border: `1px solid rgba(var(--accent-rgb), 0.2)` }}>
                 Project
               </span>
             </div>
-            <h3 className="text-xl font-bold pr-10 mb-4" style={{ color: '#f1f5f9', letterSpacing: '-0.02em' }}>
+            <h3 className="text-xl font-bold pr-10 mb-4" style={{ color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
               {project.title}
             </h3>
 
-            {/* Description — fully readable */}
+            {/* Description */}
             <p className="text-sm leading-7 whitespace-pre-wrap"
-              style={{ color: '#94a3b8' }}>
+              style={{ color: 'var(--text-body)' }}>
               {project.description || 'No description provided for this project.'}
             </p>
 
             {/* Divider */}
-            <div className="my-5 h-px" style={{ background: 'linear-gradient(90deg, rgba(99,102,241,0.3), transparent)' }} />
+            <div className="my-5 h-px" style={{ background: `linear-gradient(90deg, rgba(var(--accent-rgb), 0.3), transparent)` }} />
 
             {/* Action buttons */}
             <div className="flex flex-wrap gap-3">
@@ -207,9 +205,9 @@ function DescriptionModal({
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all hover:scale-105"
                   style={{
-                    background: 'rgba(99,102,241,0.08)',
-                    border: '1px solid rgba(99,102,241,0.25)',
-                    color: '#a5b4fc',
+                    background: `rgba(var(--accent-rgb), 0.08)`,
+                    border: `1px solid rgba(var(--accent-rgb), 0.25)`,
+                    color: 'var(--text-accent-lighter)',
                   }}
                 >
                   <Github className="w-4 h-4" />
@@ -222,9 +220,9 @@ function DescriptionModal({
                   onClick={() => { onClose(); setTimeout(onWatchDemo, 150); }}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-105"
                   style={{
-                    background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
+                    background: 'var(--gradient-accent)',
                     color: '#f1f5f9',
-                    boxShadow: '0 0 20px rgba(79,70,229,0.4)',
+                    boxShadow: `0 0 20px rgba(var(--accent-rgb), 0.4)`,
                   }}
                 >
                   <Play className="w-4 h-4 fill-current" />
@@ -261,17 +259,17 @@ function ProjectCard({
       transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex flex-col rounded-2xl overflow-hidden"
       style={{
-        background: 'linear-gradient(160deg, #0e0f23 0%, #0a0b1a 100%)',
-        border: '1px solid rgba(99,102,241,0.15)',
+        background: 'var(--gradient-card)',
+        border: `1px solid var(--card-border)`,
         transition: 'border-color 0.3s, box-shadow 0.3s, transform 0.3s',
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.45)';
-        (e.currentTarget as HTMLElement).style.boxShadow = '0 0 40px rgba(79,70,229,0.12), 0 16px 48px rgba(0,0,0,0.4)';
+        (e.currentTarget as HTMLElement).style.borderColor = `rgba(var(--accent-rgb), 0.45)`;
+        (e.currentTarget as HTMLElement).style.boxShadow = `0 0 40px rgba(var(--accent-rgb), 0.12), 0 16px 48px rgba(0,0,0,0.2)`;
         (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.15)';
+        (e.currentTarget as HTMLElement).style.borderColor = '';
         (e.currentTarget as HTMLElement).style.boxShadow = 'none';
         (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
       }}
@@ -282,7 +280,7 @@ function ProjectCard({
 
       {/* Thumbnail */}
       <div className="relative h-48 overflow-hidden flex-shrink-0"
-        style={{ background: 'rgba(79,70,229,0.04)' }}>
+        style={{ background: `rgba(var(--accent-rgb), 0.04)` }}>
         {project.thumbnail_url && !imgError ? (
           <>
             <img
@@ -298,12 +296,12 @@ function ProjectCard({
               }} />
             {/* Bottom gradient fade */}
             <div className="absolute inset-0"
-              style={{ background: 'linear-gradient(to bottom, transparent 50%, #0a0b1a 100%)' }} />
+              style={{ background: 'var(--gradient-fade)' }} />
           </>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-            <ImageOff className="w-8 h-8" style={{ color: '#818cf8', opacity: 0.3 }} />
-            <span className="text-xs font-mono" style={{ color: '#818cf8', opacity: 0.4 }}>NO_THUMBNAIL</span>
+            <ImageOff className="w-8 h-8" style={{ color: 'var(--accent-light)', opacity: 0.3 }} />
+            <span className="text-xs font-mono" style={{ color: 'var(--accent-light)', opacity: 0.4 }}>NO_THUMBNAIL</span>
           </div>
         )}
 
@@ -312,13 +310,12 @@ function ProjectCard({
           <button
             onClick={onWatchDemo}
             className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: 'rgba(6,6,15,0.6)', backdropFilter: 'blur(2px)' }}
+            style={{ background: 'var(--overlay-bg)', backdropFilter: 'blur(2px)' }}
           >
             <div className="relative flex items-center justify-center w-16 h-16 rounded-full"
-              style={{ background: 'linear-gradient(135deg, #4f46e5, #6366f1)', boxShadow: '0 0 32px rgba(79,70,229,0.7)' }}>
-              {/* Pulse ring */}
+              style={{ background: 'var(--gradient-accent)', boxShadow: `0 0 32px rgba(var(--accent-rgb), 0.7)` }}>
               <div className="absolute inset-0 rounded-full animate-ping opacity-30"
-                style={{ background: 'rgba(99,102,241,0.4)' }} />
+                style={{ background: `rgba(var(--accent-rgb), 0.4)` }} />
               <Play className="w-6 h-6 fill-current ml-0.5" style={{ color: '#f1f5f9' }} />
             </div>
           </button>
@@ -329,21 +326,21 @@ function ProjectCard({
       <div className="flex flex-col flex-1 p-5">
         {/* Title */}
         <h3 className="font-bold text-base mb-2 leading-snug transition-colors duration-200"
-          style={{ color: '#f1f5f9', letterSpacing: '-0.01em' }}>
+          style={{ color: 'var(--text-heading)', letterSpacing: '-0.01em' }}>
           {project.title}
         </h3>
 
         {/* Description preview */}
         {project.description && (
           <p className="text-xs leading-relaxed line-clamp-2 flex-1 mb-4"
-            style={{ color: '#94a3b8' }}>
+            style={{ color: 'var(--text-body)' }}>
             {project.description}
           </p>
         )}
 
         {/* Separator */}
         <div className="mb-4 h-px"
-          style={{ background: 'linear-gradient(90deg, rgba(99,102,241,0.25), transparent)' }} />
+          style={{ background: `linear-gradient(90deg, rgba(var(--accent-rgb), 0.25), transparent)` }} />
 
         {/* Actions */}
         <div className="flex items-center gap-2 flex-wrap">
@@ -352,9 +349,9 @@ function ProjectCard({
             onClick={onReadMore}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:scale-105"
             style={{
-              background: 'rgba(99,102,241,0.07)',
-              border: '1px solid rgba(99,102,241,0.2)',
-              color: '#a5b4fc',
+              background: `rgba(var(--accent-rgb), 0.07)`,
+              border: `1px solid rgba(var(--accent-rgb), 0.2)`,
+              color: 'var(--text-accent-lighter)',
             }}
           >
             <Eye className="w-3 h-3" />
@@ -370,9 +367,9 @@ function ProjectCard({
               onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:scale-105"
               style={{
-                background: 'rgba(99,102,241,0.07)',
-                border: '1px solid rgba(99,102,241,0.2)',
-                color: '#a5b4fc',
+                background: `rgba(var(--accent-rgb), 0.07)`,
+                border: `1px solid rgba(var(--accent-rgb), 0.2)`,
+                color: 'var(--text-accent-lighter)',
               }}
             >
               <Github className="w-3 h-3" />
@@ -386,9 +383,9 @@ function ProjectCard({
               onClick={onWatchDemo}
               className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:scale-105"
               style={{
-                background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
+                background: 'var(--gradient-accent)',
                 color: '#f1f5f9',
-                boxShadow: '0 0 16px rgba(79,70,229,0.35)',
+                boxShadow: `0 0 16px rgba(var(--accent-rgb), 0.35)`,
               }}
             >
               <Play className="w-3 h-3 fill-current" />
@@ -442,17 +439,17 @@ export function ProjectsSection() {
           className="mb-16 text-center"
         >
           <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full"
-            style={{ background: 'rgba(79,70,229,0.1)', border: '1px solid rgba(99,102,241,0.25)' }}>
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#6366f1' }} />
-            <span className="text-xs font-mono tracking-widest uppercase" style={{ color: '#818cf8' }}>
+            style={{ background: 'var(--badge-bg)', border: `1px solid var(--badge-border)` }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'var(--accent-color)' }} />
+            <span className="text-xs font-mono tracking-widest uppercase" style={{ color: 'var(--badge-text)' }}>
               Portfolio / Work
             </span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4"
-            style={{ color: '#f1f5f9', letterSpacing: '-0.03em' }}>
+            style={{ color: 'var(--text-heading)', letterSpacing: '-0.03em' }}>
             Projects
           </h2>
-          <p className="text-sm max-w-sm mx-auto" style={{ color: '#94a3b8' }}>
+          <p className="text-sm max-w-sm mx-auto" style={{ color: 'var(--text-body)' }}>
             Hover to preview · Details for full info · Watch Demo for live video
           </p>
         </motion.div>
@@ -462,13 +459,13 @@ export function ProjectsSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(3)].map((_, i) => (
               <div key={i} className="h-72 rounded-2xl animate-pulse"
-                style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.1)' }} />
+                style={{ background: `rgba(var(--accent-rgb), 0.06)`, border: `1px solid rgba(var(--accent-rgb), 0.1)` }} />
             ))}
           </div>
         ) : projects.length === 0 ? (
           <div className="text-center py-20">
-            <Layers className="w-12 h-12 mx-auto mb-4" style={{ color: '#4f46e5', opacity: 0.3 }} />
-            <p className="text-sm font-mono" style={{ color: '#94a3b8' }}>NO_PROJECTS_FOUND</p>
+            <Layers className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--accent-color)', opacity: 0.3 }} />
+            <p className="text-sm font-mono" style={{ color: 'var(--text-body)' }}>NO_PROJECTS_FOUND</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

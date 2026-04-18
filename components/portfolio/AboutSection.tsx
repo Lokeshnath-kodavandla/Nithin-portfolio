@@ -131,19 +131,19 @@ const AboutSection: React.FC = () => {
       `}</style>
 
       <section
-        className="about-section"
+        className="about-section theme-transition"
         id="about"
         style={{
           position: 'relative',
           padding: 'clamp(64px, 9vw, 128px) clamp(16px, 5vw, 64px)',
-          background: '#0C0C14',
+          background: 'var(--section-bg)',
           overflow: 'hidden',
         }}
       >
         {/* Dot grid */}
         <div aria-hidden="true" style={{
           position: 'absolute', inset: 0,
-          backgroundImage: 'radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px)',
+          backgroundImage: `radial-gradient(var(--dot-grid) 1px, transparent 1px)`,
           backgroundSize: '28px 28px',
           pointerEvents: 'none',
         }} />
@@ -152,7 +152,7 @@ const AboutSection: React.FC = () => {
         <div aria-hidden="true" style={{
           position: 'absolute', top: '10%', right: '-80px',
           width: '480px', height: '480px', borderRadius: '50%',
-          background: '#6C63FF', opacity: 0.04, filter: 'blur(90px)',
+          background: `rgba(var(--accent-rgb), 0.04)`, filter: 'blur(90px)',
           pointerEvents: 'none',
         }} />
 
@@ -169,7 +169,7 @@ const AboutSection: React.FC = () => {
                 fontSize: '11px',
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                color: '#6C63FF',
+                color: 'var(--text-accent)',
                 marginBottom: '12px',
               }}
             >
@@ -195,7 +195,7 @@ const AboutSection: React.FC = () => {
               <div style={{
                 position: 'absolute', top: -12, left: -12,
                 width: 60, height: 60,
-                border: '1.5px solid rgba(108,99,255,0.35)',
+                border: `1.5px solid rgba(var(--accent-rgb), 0.35)`,
                 borderRadius: '8px', zIndex: 0,
               }} />
               <div style={{
@@ -209,7 +209,7 @@ const AboutSection: React.FC = () => {
               <div className="ring-spin" style={{
                 position: 'absolute', inset: '-20px',
                 borderRadius: '50%',
-                border: '1px dashed rgba(108,99,255,0.15)',
+                border: `1px dashed rgba(var(--accent-rgb), 0.15)`,
                 zIndex: 0, pointerEvents: 'none',
               }} />
 
@@ -218,8 +218,8 @@ const AboutSection: React.FC = () => {
                 position: 'relative', zIndex: 1,
                 width: '80%', height: '80%',
                 borderRadius: '20px', overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.08)',
-                background: 'rgba(255,255,255,0.03)',
+                border: `1px solid var(--card-border)`,
+                background: `rgba(var(--accent-rgb), 0.03)`,
               }}>
                 <img
                   src="https://noonsavath-nithin.web.app/assets/Nithin_Portfolio_pic-Dw8nE6rU.jpg"
@@ -231,23 +231,23 @@ const AboutSection: React.FC = () => {
               {/* Floating cert badge */}
               <div className="cert-badge" style={{
                 position: 'absolute', bottom: 24, left: -24, zIndex: 2,
-                background: 'rgba(18,18,30,0.92)',
-                border: '1px solid rgba(108,99,255,0.4)',
+                background: 'var(--card-bg-solid)',
+                border: `1px solid rgba(var(--accent-rgb), 0.4)`,
                 borderRadius: '14px', padding: '10px 16px',
                 backdropFilter: 'blur(12px)',
                 display: 'flex', alignItems: 'center', gap: '10px',
               }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: '8px',
-                  background: 'rgba(108,99,255,0.2)',
+                  background: `rgba(var(--accent-rgb), 0.2)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '16px',
                 }}>🏆</div>
                 <div>
-                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: '12px', color: '#E0E0F0' }}>
+                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: '12px', color: 'var(--text-heading)' }}>
                     DP-600 Certified
                   </div>
-                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#6C63FF', marginTop: '1px' }}>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: 'var(--text-accent)', marginTop: '1px' }}>
                     Microsoft Fabric
                   </div>
                 </div>
@@ -256,7 +256,7 @@ const AboutSection: React.FC = () => {
               {/* Floating IBM badge */}
               <div style={{
                 position: 'absolute', top: 24, right: -20, zIndex: 2,
-                background: 'rgba(18,18,30,0.92)',
+                background: 'var(--card-bg-solid)',
                 border: '1px solid rgba(0,201,167,0.35)',
                 borderRadius: '12px', padding: '8px 14px',
                 backdropFilter: 'blur(12px)',
@@ -264,7 +264,7 @@ const AboutSection: React.FC = () => {
                 <div style={{ fontFamily: "'Space Mono', monospace", fontSize: '10px', color: '#00C9A7', letterSpacing: '0.06em' }}>
                   IBM SkillBuild
                 </div>
-                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '11px', fontWeight: 500, color: '#C0C0D8', marginTop: '2px' }}>
+                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '11px', fontWeight: 500, color: 'var(--text-body)', marginTop: '2px' }}>
                   National Pitch Night
                 </div>
               </div>
@@ -279,7 +279,7 @@ const AboutSection: React.FC = () => {
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontWeight: 700,
                   fontSize: 'clamp(22px, 3vw, 30px)',
-                  color: '#F0F0FA',
+                  color: 'var(--text-heading)',
                   margin: '0 0 6px',
                   letterSpacing: '-0.02em',
                 }}>
@@ -287,7 +287,7 @@ const AboutSection: React.FC = () => {
                 </h3>
                 <p style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: '12px', color: '#6C63FF',
+                  fontSize: '12px', color: 'var(--text-accent)',
                   letterSpacing: '0.08em', textTransform: 'uppercase',
                   margin: '0 0 24px',
                 }}>
@@ -298,11 +298,11 @@ const AboutSection: React.FC = () => {
               {/* Bio para 1 */}
               <motion.p {...fadeUp(0.1)} style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '15px', color: 'rgba(200,200,220,0.75)',
+                fontSize: '15px', color: 'var(--text-body)',
                 lineHeight: 1.75, margin: '0 0 16px',
               }}>
                 Microsoft Fabric Certified Data Analyst (DP-600) with hands-on experience at
-                <strong style={{ color: '#E0E0F0', fontWeight: 500 }}> Smith &amp; Nephew</strong>.
+                <strong style={{ color: 'var(--text-heading)', fontWeight: 500 }}> Smith &amp; Nephew</strong>.
                 I specialize in building end-to-end analytics pipelines — from raw data ingestion
                 to insight delivery — using Power BI, SQL, Python, and Microsoft Fabric.
               </motion.p>
@@ -310,7 +310,7 @@ const AboutSection: React.FC = () => {
               {/* Bio para 2 */}
               <motion.p {...fadeUp(0.2)} style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '15px', color: 'rgba(200,200,220,0.65)',
+                fontSize: '15px', color: 'var(--text-muted)',
                 lineHeight: 1.75, margin: '0 0 28px',
               }}>
                 I've automated reporting workflows, reduced 84 Power Query queries down to 9
@@ -324,13 +324,13 @@ const AboutSection: React.FC = () => {
                 {highlights.map((h, i) => (
                   <div key={i} style={{
                     padding: '12px 14px',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.07)',
+                    background: `rgba(var(--accent-rgb), 0.03)`,
+                    border: `1px solid var(--card-border)`,
                     borderRadius: '12px',
                   }}>
                     <div style={{
                       fontFamily: "'Space Mono', monospace",
-                      fontSize: '10px', color: 'rgba(108,99,255,0.8)',
+                      fontSize: '10px', color: 'var(--badge-text)',
                       letterSpacing: '0.08em', textTransform: 'uppercase',
                       marginBottom: '4px',
                     }}>
@@ -338,7 +338,7 @@ const AboutSection: React.FC = () => {
                     </div>
                     <div style={{
                       fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: '13px', fontWeight: 500, color: '#D0D0E8',
+                      fontSize: '13px', fontWeight: 500, color: 'var(--text-body)',
                     }}>
                       {h.value}
                     </div>
@@ -354,14 +354,14 @@ const AboutSection: React.FC = () => {
                     onMouseEnter={() => setHoveredStat(i)}
                     onMouseLeave={() => setHoveredStat(null)}
                     animate={{
-                      background: hoveredStat === i ? 'rgba(108,99,255,0.1)' : 'rgba(255,255,255,0.03)',
-                      borderColor: hoveredStat === i ? 'rgba(108,99,255,0.4)' : 'rgba(255,255,255,0.07)',
+                      background: hoveredStat === i ? `rgba(var(--accent-rgb), 0.1)` : `rgba(var(--accent-rgb), 0.03)`,
+                      borderColor: hoveredStat === i ? `rgba(var(--accent-rgb), 0.4)` : `var(--card-border)`,
                     }}
                     transition={{ duration: 0.22 }}
                     style={{
                       textAlign: 'center',
                       padding: '16px 10px',
-                      border: '1px solid rgba(255,255,255,0.07)',
+                      border: `1px solid var(--card-border)`,
                       borderRadius: '14px',
                       cursor: 'default',
                     }}
@@ -370,7 +370,7 @@ const AboutSection: React.FC = () => {
                       fontFamily: "'Space Mono', monospace",
                       fontWeight: 700,
                       fontSize: 'clamp(16px, 2.5vw, 22px)',
-                      color: hoveredStat === i ? '#8B83FF' : '#E0E0F0',
+                      color: hoveredStat === i ? 'var(--text-accent-light)' : 'var(--text-heading)',
                       transition: 'color 0.22s ease',
                     }}>
                       {s.value}
@@ -378,13 +378,13 @@ const AboutSection: React.FC = () => {
                     <div style={{
                       fontFamily: "'Space Grotesk', sans-serif",
                       fontSize: '12px', fontWeight: 600,
-                      color: 'rgba(200,200,220,0.8)', marginTop: '2px',
+                      color: 'var(--text-body)', marginTop: '2px',
                     }}>
                       {s.label}
                     </div>
                     <div style={{
                       fontFamily: "'Space Mono', monospace",
-                      fontSize: '9px', color: 'rgba(108,99,255,0.65)',
+                      fontSize: '9px', color: 'var(--badge-text)',
                       marginTop: '3px', letterSpacing: '0.04em',
                     }}>
                       {s.sub}

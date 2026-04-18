@@ -10,9 +10,9 @@ export default function HeroSection() {
   const tech = ['Power BI', 'SQL', 'Python', 'DAX', 'Azure', 'Fabric', 'Tableau', 'ETL'];
 
   const orbits = [
-    { items: ['ML', 'AI'], radius: 110, duration: 12, color: 'rgba(99,102,241,0.9)' },
-    { items: ['SQL', 'DAX', 'ETL'], radius: 160, duration: 18, color: 'rgba(139,92,246,0.9)' },
-    { items: ['Power BI', 'Python', 'Azure', 'MLOps'], radius: 210, duration: 25, color: 'rgba(168,85,247,0.8)' },
+    { items: ['ML', 'AI'], radius: 110, duration: 12 },
+    { items: ['SQL', 'DAX', 'ETL'], radius: 160, duration: 18 },
+    { items: ['Power BI', 'Python', 'Azure', 'MLOps'], radius: 210, duration: 25 },
   ];
 
   // Animated grid canvas background
@@ -35,8 +35,12 @@ export default function HeroSection() {
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Read the accent RGB from CSS variable
+      const style = getComputedStyle(document.documentElement);
+      const accentRgb = style.getPropertyValue('--accent-rgb').trim() || '99, 102, 241';
+
       const gridSize = 44;
-      ctx.strokeStyle = 'rgba(99,102,241,0.07)';
+      ctx.strokeStyle = `rgba(${accentRgb}, 0.07)`;
       ctx.lineWidth = 1;
 
       for (let x = 0; x < canvas.width; x += gridSize) {
@@ -63,7 +67,7 @@ export default function HeroSection() {
 
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(129,140,248,${opacity})`;
+        ctx.fillStyle = `rgba(${accentRgb}, ${opacity})`;
         ctx.fill();
       }
 
@@ -79,14 +83,17 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 md:pt-28  bg-[#06060f] text-white px-6 overflow-hidden">
+    <section
+      className="relative min-h-screen flex items-center pt-24 md:pt-28 px-6 overflow-hidden theme-transition"
+      style={{ background: 'var(--hero-bg)', color: 'var(--text-heading)' }}
+    >
 
       {/* Canvas background */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
 
       {/* Radial glow */}
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)' }} />
+        style={{ background: `radial-gradient(circle, rgba(var(--accent-rgb), 0.12) 0%, transparent 70%)` }} />
 
       <div className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center w-full">
 
@@ -99,16 +106,17 @@ export default function HeroSection() {
         >
           <motion.p
             className="text-sm font-mono"
-            style={{ color: '#818cf8' }}
+            style={{ color: 'var(--accent-light)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <span style={{ color: '#4f46e5' }}>&gt;</span> hello, i&apos;m
+            <span style={{ color: 'var(--accent-color)' }}>&gt;</span> hello, i&apos;m
           </motion.p>
 
           <motion.h1
             className="text-5xl font-bold leading-tight tracking-tight"
+            style={{ color: 'var(--text-heading)' }}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -122,18 +130,19 @@ export default function HeroSection() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <div className="w-8 h-px bg-indigo-500" />
-            <span className="text-indigo-400 font-medium tracking-wide">Data Analytics Specialist</span>
+            <div className="w-8 h-px" style={{ background: 'var(--accent-color)' }} />
+            <span className="font-medium tracking-wide" style={{ color: 'var(--text-accent-lighter)' }}>Data Analytics Specialist</span>
           </motion.div>
 
           <motion.p
-            className="text-gray-400 max-w-md leading-relaxed text-sm"
+            className="max-w-md leading-relaxed text-sm"
+            style={{ color: 'var(--text-body)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
             Microsoft Fabric Certified{' '}
-            <span className="text-indigo-400 font-semibold">DP-600</span> analyst turning raw data
+            <span className="font-semibold" style={{ color: 'var(--text-accent-lighter)' }}>DP-600</span> analyst turning raw data
             into decisions that move revenue. Fluent in Power BI, SQL, Python and DAX — building
             dashboards executives actually trust.
           </motion.p>
@@ -142,15 +151,15 @@ export default function HeroSection() {
           <motion.div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-mono"
             style={{
-              background: 'rgba(99,102,241,0.1)',
-              border: '1px solid rgba(99,102,241,0.3)',
-              color: '#a5b4fc',
+              background: 'var(--badge-bg)',
+              border: '1px solid var(--badge-border)',
+              color: 'var(--text-accent-lighter)',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.55 }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'var(--text-accent-lighter)' }} />
             Microsoft DP-600 Certified
           </motion.div>
 
@@ -166,14 +175,14 @@ export default function HeroSection() {
                 key={item}
                 className="text-xs px-3 py-1 rounded-md font-mono"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.09)',
-                  color: '#94a3b8',
+                  background: `rgba(var(--accent-rgb), 0.04)`,
+                  border: `1px solid rgba(var(--accent-rgb), 0.12)`,
+                  color: 'var(--text-body)',
                 }}
                 whileHover={{
-                  background: 'rgba(99,102,241,0.15)',
-                  borderColor: 'rgba(99,102,241,0.4)',
-                  color: '#c7d2fe',
+                  background: `rgba(var(--accent-rgb), 0.15)`,
+                  borderColor: `rgba(var(--accent-rgb), 0.4)`,
+                  color: 'var(--text-accent-lightest)',
                   scale: 1.05,
                 }}
                 initial={{ opacity: 0, y: 10 }}
@@ -190,8 +199,8 @@ export default function HeroSection() {
             href="/Nithin Nunsavath Resume Data Analyst.pdf"
             download
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium"
-            style={{ background: '#4f46e5', color: '#fff' }}
-            whileHover={{ scale: 1.04, background: '#4338ca' }}
+            style={{ background: 'var(--gradient-accent)', color: '#fff' }}
+            whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -213,7 +222,7 @@ export default function HeroSection() {
               style={{
                 width: orbit.radius * 2,
                 height: orbit.radius * 2,
-                border: '1px solid rgba(99,102,241,0.12)',
+                border: `1px solid rgba(var(--accent-rgb), 0.12)`,
               }}
             />
           ))}
@@ -221,7 +230,6 @@ export default function HeroSection() {
           {/* Orbiting tags */}
           {orbits.map((orbit, oi) =>
             orbit.items.map((label, ii) => {
-              const angleOffset = (360 / orbit.items.length) * ii;
               return (
                 <motion.div
                   key={`${oi}-${ii}`}
@@ -239,9 +247,9 @@ export default function HeroSection() {
                     className="absolute px-2.5 py-1 rounded-md text-xs font-mono whitespace-nowrap"
                     style={{
                       x: orbit.radius,
-                      background: 'rgba(15,15,30,0.85)',
-                      border: `1px solid ${orbit.color.replace('0.9', '0.35')}`,
-                      color: orbit.color,
+                      background: 'var(--orbit-tag-bg)',
+                      border: `1px solid rgba(var(--accent-rgb), 0.35)`,
+                      color: 'var(--text-accent-light)',
                       backdropFilter: 'blur(6px)',
                     }}
                     animate={{ rotate: -360 }}
@@ -264,7 +272,7 @@ export default function HeroSection() {
             <motion.div
               key={n}
               className="absolute rounded-full"
-              style={{ border: '1px solid rgba(99,102,241,0.2)' }}
+              style={{ border: `1px solid rgba(var(--accent-rgb), 0.2)` }}
               animate={{
                 width: [60, 60 + n * 30],
                 height: [60, 60 + n * 30],
@@ -283,19 +291,19 @@ export default function HeroSection() {
           <motion.div
             className="relative z-10 w-[72px] h-[72px] rounded-full flex items-center justify-center"
             style={{
-              background: 'linear-gradient(135deg, rgba(79,70,229,0.3), rgba(139,92,246,0.2))',
-              border: '1px solid rgba(99,102,241,0.5)',
+              background: `linear-gradient(135deg, rgba(var(--accent-rgb), 0.3), rgba(var(--accent-rgb), 0.15))`,
+              border: `1px solid rgba(var(--accent-rgb), 0.5)`,
             }}
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <span className="text-indigo-300 text-xs font-mono tracking-widest">DATA</span>
+            <span className="text-xs font-mono tracking-widest" style={{ color: 'var(--text-accent-lighter)' }}>DATA</span>
           </motion.div>
 
           {/* Corner scan line */}
           <motion.div
             className="absolute left-0 right-0 h-px pointer-events-none"
-            style={{ background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent)' }}
+            style={{ background: `linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.4), transparent)` }}
             animate={{ top: ['0%', '100%'] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
           />
